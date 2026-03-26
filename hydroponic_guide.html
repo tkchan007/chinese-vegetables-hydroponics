@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hydroponic Reference Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F6F2EA;
+    --paper: #FDFAF4;
+    --ink: #1C1C18;
+    --ink-mid: #4A4A42;
+    --ink-light: #8A8A7E;
+    --green-deep: #2A5C35;
+    --green-mid: #4A8C5C;
+    --green-light: #C8DEC0;
+    --green-pale: #EDF5E9;
+    --teal-deep: #1A5C52;
+    --teal-mid: #2D8C7A;
+    --teal-light: #C0DED8;
+    --teal-pale: #E8F5F2;
+    --amber-deep: #7A3A10;
+    --amber-mid: #C4722A;
+    --amber-light: #EBC89A;
+    --amber-pale: #FDF3E7;
+    --border: rgba(44,44,36,0.12);
+    --sidebar-w: 240px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--green-deep);
+    color: #fff;
+    padding: 28px 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 22px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 18px;
+  }
+
+  .sidebar-logo h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .sidebar-logo p {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    padding: 12px 22px 6px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 22px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: all 0.18s;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  .nav-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+    border-left-color: rgba(255,255,255,0.3);
+  }
+
+  .nav-link.active {
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+    border-left-color: #8FC98A;
+  }
+
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+    transition: background 0.18s;
+  }
+
+  .nav-link.active .nav-dot,
+  .nav-link:hover .nav-dot { background: #8FC98A; }
+
+  .nav-dot.amber { background: rgba(255,255,255,0.3); }
+  .nav-link.active .nav-dot.amber,
+  .nav-link:hover .nav-dot.amber { background: #E8A96C; }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 18px 22px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    flex: 1;
+    padding: 48px 52px;
+    max-width: 860px;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    margin-bottom: 52px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    left: -52px; top: -48px;
+    width: 3px;
+    height: calc(100% + 84px);
+    background: linear-gradient(to bottom, transparent, var(--green-mid), transparent);
+    opacity: 0.25;
+  }
+
+  .system-badges {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .badge-lettuce {
+    background: var(--teal-pale);
+    color: var(--teal-deep);
+    border: 1px solid var(--teal-light);
+  }
+
+  .badge-tomato {
+    background: var(--amber-pale);
+    color: var(--amber-deep);
+    border: 1px solid var(--amber-light);
+  }
+
+  .badge-neutral {
+    background: var(--green-pale);
+    color: var(--green-deep);
+    border: 1px solid var(--green-light);
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--ink-mid);
+    font-weight: 300;
+    max-width: 520px;
+  }
+
+  .system-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .system-card {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .system-card.lettuce {
+    background: var(--teal-pale);
+    border-color: var(--teal-light);
+  }
+
+  .system-card.tomato {
+    background: var(--amber-pale);
+    border-color: var(--amber-light);
+  }
+
+  .system-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .system-card.lettuce h3 { color: var(--teal-deep); }
+  .system-card.tomato h3 { color: var(--amber-deep); }
+
+  .system-card .stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .system-card .stat-row:last-child { border-bottom: none; }
+
+  .stat-label { color: var(--ink-mid); font-weight: 400; }
+  .stat-val { font-weight: 600; font-family: 'DM Mono', monospace; font-size: 12px; }
+  .system-card.lettuce .stat-val { color: var(--teal-deep); }
+  .system-card.tomato .stat-val { color: var(--amber-deep); }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 52px; scroll-margin-top: 32px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 14px 20px;
+    border-radius: 10px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    margin-bottom: 0;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .section-header:hover { background: var(--green-pale); }
+
+  .section-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .icon-green { background: var(--green-pale); }
+  .icon-teal { background: var(--teal-pale); }
+  .icon-amber { background: var(--amber-pale); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .section-meta {
+    font-size: 12px;
+    color: var(--ink-light);
+    font-weight: 300;
+    margin-top: 1px;
+  }
+
+  .chevron {
+    width: 20px; height: 20px;
+    color: var(--ink-light);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .chevron.open { transform: rotate(180deg); }
+
+  .section-body {
+    padding: 24px 20px 8px;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    background: var(--paper);
+    display: none;
+  }
+
+  .section-body.open { display: block; }
+
+  /* ── PHASE CARDS ── */
+  .phase {
+    margin-bottom: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .phase-header {
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .phase-lettuce { background: var(--teal-pale); color: var(--teal-deep); }
+  .phase-tomato { background: var(--amber-pale); color: var(--amber-deep); }
+  .phase-neutral { background: var(--green-pale); color: var(--green-deep); }
+
+  .phase-body { padding: 16px; background: var(--paper); }
+
+  .phase-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .phase-lettuce .phase-tag { background: var(--teal-light); color: var(--teal-deep); }
+  .phase-tomato .phase-tag { background: var(--amber-light); color: var(--amber-deep); }
+  .phase-neutral .phase-tag { background: var(--green-light); color: var(--green-deep); }
+
+  /* ── PARAM GRID ── */
+  .param-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin: 12px 0 16px;
+  }
+
+  .param-cell {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+  }
+
+  .param-name {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-light);
+    margin-bottom: 4px;
+  }
+
+  .param-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin: 16px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead th {
+    background: var(--green-deep);
+    color: #fff;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  thead.amber-head th { background: var(--amber-mid); }
+  thead.teal-head th { background: var(--teal-deep); }
+
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody tr:nth-child(odd) { background: var(--paper); }
+  tbody tr:hover { background: var(--green-pale); }
+
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.4;
+    font-size: 13px;
+  }
+
+  td:first-child { font-weight: 600; white-space: nowrap; }
+
+  .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13.5px;
+  }
+
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .callout-green { background: var(--green-pale); border-left: 3px solid var(--green-mid); }
+  .callout-amber { background: var(--amber-pale); border-left: 3px solid var(--amber-mid); }
+  .callout-teal { background: var(--teal-pale); border-left: 3px solid var(--teal-mid); }
+  .callout-warn { background: #FFF9E6; border-left: 3px solid #D4A017; }
+
+  .callout strong { font-weight: 600; }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; margin: 12px 0; }
+
+  .step-list li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 22px; height: 22px;
+    background: var(--green-deep);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-num.amber { background: var(--amber-mid); }
+  .step-num.teal { background: var(--teal-deep); }
+
+  /* ── OPTION CARDS ── */
+  .option-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+
+  .option-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    background: var(--paper);
+  }
+
+  .option-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--green-deep);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .option-card p { font-size: 13px; color: var(--ink-mid); line-height: 1.55; }
+
+  .success-rate {
+    display: inline-block;
+    background: var(--green-pale);
+    color: var(--green-deep);
+    border: 1px solid var(--green-light);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  /* ── QUICK REFERENCE ── */
+  .quick-ref {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .qr-card {
+    border-radius: 10px;
+    padding: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+  }
+
+  .qr-card.lettuce-qr {
+    background: var(--teal-deep);
+    color: rgba(255,255,255,0.9);
+  }
+
+  .qr-card.tomato-qr {
+    background: var(--amber-deep);
+    color: rgba(255,255,255,0.9);
+  }
+
+  .qr-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    margin-bottom: 14px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .qr-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 12px;
+  }
+
+  .qr-row:last-child { border-bottom: none; }
+  .qr-key { opacity: 0.65; }
+  .qr-val { font-weight: 500; }
+
+  .mix-order {
+    background: var(--ink);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: #8FC98A;
+    margin: 16px 0;
+    counter-reset: mix-step;
+  }
+
+  .mix-order .mix-title {
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+  }
+
+  .mix-step {
+    display: flex;
+    gap: 12px;
+    padding: 4px 0;
+    counter-increment: mix-step;
+    color: #C8F0C4;
+    font-size: 13px;
+  }
+
+  .mix-step::before {
+    content: counter(mix-step) ".";
+    color: #5A8C56;
+    min-width: 18px;
+  }
+
+  /* ── PROBLEM TABLES ── */
+  .problem-section { margin-bottom: 20px; }
+
+  .problem-section h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+
+  /* ── MAINTENANCE GRID ── */
+  .maint-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .maint-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .maint-card-header {
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .mh-green { background: var(--green-deep); color: #fff; }
+  .mh-teal { background: var(--teal-deep); color: #fff; }
+  .mh-amber { background: var(--amber-mid); color: #fff; }
+  .mh-coral { background: #8B3A2A; color: #fff; }
+
+  .maint-card-body {
+    padding: 12px;
+    background: var(--paper);
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+  }
+
+  .maint-card-body li {
+    margin-bottom: 5px;
+    padding-left: 12px;
+    position: relative;
+    list-style: none;
+  }
+
+  .maint-card-body li::before {
+    content: '·';
+    position: absolute;
+    left: 2px;
+    color: var(--ink-light);
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { display: flex; gap: 0; margin: 16px 0; overflow-x: auto; }
+
+  .tl-stage {
+    flex: 1;
+    min-width: 90px;
+    text-align: center;
+    position: relative;
+  }
+
+  .tl-stage::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 18px;
+    width: 100%; height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+
+  .tl-stage:last-child::after { display: none; }
+
+  .tl-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    margin: 0 auto 8px;
+    position: relative;
+    z-index: 1;
+    border: 2px solid white;
+  }
+
+  .tl-label { font-size: 11px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+  .tl-days { font-size: 10px; color: var(--ink-light); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+  .tl-teal .tl-dot { background: var(--teal-mid); }
+  .tl-amber .tl-dot { background: var(--amber-mid); }
+  .tl-green .tl-dot { background: var(--green-mid); }
+  .tl-coral .tl-dot { background: #C44D2A; }
+
+  /* ── GENERAL PROSE ── */
+  .prose p { margin-bottom: 12px; font-size: 14px; color: var(--ink-mid); }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--ink); font-weight: 600; }
+
+  h3.sub-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 20px 0 10px;
+    color: var(--ink);
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── VARIETY CARDS ── */
+  .variety-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+
+  .variety-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    background: var(--paper);
+    text-align: center;
+  }
+
+  .variety-card .v-icon { font-size: 28px; margin-bottom: 8px; }
+  .variety-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .variety-card p { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+
+  /* ── PRINT ── */
+  @media print {
+    .sidebar { display: none; }
+    .main { max-width: 100%; padding: 24px; }
+    .section-body { display: block !important; }
+    .section-header .chevron { display: none; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 28px 22px; }
+    .system-grid, .quick-ref, .option-cards, .maint-grid { grid-template-columns: 1fr; }
+    .variety-cards { grid-template-columns: 1fr 1fr; }
+    .page-title { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Hydroponic<br>Reference Guide</h1>
+    <p>iDoo · Suncore · 2026</p>
+  </div>
+
+  <div class="nav-section-label">General</div>
+  <a class="nav-link active" onclick="scrollTo('overview')"><span class="nav-dot"></span>System overview</a>
+  <a class="nav-link" onclick="scrollTo('germination')"><span class="nav-dot"></span>Germination</a>
+  <a class="nav-link" onclick="scrollTo('thinning')"><span class="nav-dot"></span>Seedling thinning</a>
+  <a class="nav-link" onclick="scrollTo('nutrients')"><span class="nav-dot"></span>Nutrient schedule</a>
+  <a class="nav-link" onclick="scrollTo('ph')"><span class="nav-dot"></span>pH management</a>
+
+  <div class="nav-section-label" style="margin-top:8px">iDoo — Lettuce</div>
+  <a class="nav-link" onclick="scrollTo('lettuce')"><span class="nav-dot"></span>Full lifecycle</a>
+  <a class="nav-link" onclick="scrollTo('pruning-lettuce')"><span class="nav-dot"></span>Pruning guide</a>
+
+  <div class="nav-section-label" style="margin-top:8px">Suncore — Tomatoes</div>
+  <a class="nav-link" onclick="scrollTo('tomatoes')"><span class="nav-dot amber"></span>Full lifecycle</a>
+  <a class="nav-link" onclick="scrollTo('pruning-tomato')"><span class="nav-dot amber"></span>Pruning guide</a>
+
+  <div class="nav-section-label" style="margin-top:8px">Reference</div>
+  <a class="nav-link" onclick="scrollTo('maintenance')"><span class="nav-dot"></span>Weekly routine</a>
+  <a class="nav-link" onclick="scrollTo('problems')"><span class="nav-dot"></span>Problems & fixes</a>
+  <a class="nav-link" onclick="scrollTo('quickref')"><span class="nav-dot"></span>Quick reference</a>
+
+  <div class="sidebar-footer">
+    Click any section header<br>to expand or collapse.
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header" id="overview">
+    <div class="system-badges">
+      <span class="badge badge-lettuce">🥬 iDoo 12-pod</span>
+      <span class="badge badge-tomato">🍅 Suncore 20-pod</span>
+      <span class="badge badge-neutral">GH Nutrients</span>
+    </div>
+    <h1 class="page-title">Hydroponic<br>Reference Guide</h1>
+    <p class="page-subtitle">Complete lifecycle care for desktop hydroponic lettuce and dwarf tomatoes — from germination to harvest.</p>
+
+    <div class="system-grid">
+      <div class="system-card lettuce">
+        <h3>iDoo 12-pod</h3>
+        <div class="stat-row"><span class="stat-label">Plants</span><span class="stat-val">Black Seed + Red Romaine</span></div>
+        <div class="stat-row"><span class="stat-label">Max height</span><span class="stat-val">~11"</span></div>
+        <div class="stat-row"><span class="stat-label">Light cycle</span><span class="stat-val">16h / 8h</span></div>
+        <div class="stat-row"><span class="stat-label">pH target</span><span class="stat-val">5.5 – 6.5</span></div>
+        <div class="stat-row"><span class="stat-label">Cycle length</span><span class="stat-val">28 – 45 days</span></div>
+        <div class="stat-row"><span class="stat-label">FloraBloom</span><span class="stat-val">Not used</span></div>
+      </div>
+      <div class="system-card tomato">
+        <h3>Suncore 20-pod</h3>
+        <div class="stat-row"><span class="stat-label">Plants</span><span class="stat-val">Yel. Pear, Rainbow, Green Zebra</span></div>
+        <div class="stat-row"><span class="stat-label">Max height</span><span class="stat-val">~24" (adjustable)</span></div>
+        <div class="stat-row"><span class="stat-label">Light cycle</span><span class="stat-val">18h / 6h</span></div>
+        <div class="stat-row"><span class="stat-label">pH target</span><span class="stat-val">5.8 – 6.3</span></div>
+        <div class="stat-row"><span class="stat-label">Cycle length</span><span class="stat-val">4 – 5 months</span></div>
+        <div class="stat-row"><span class="stat-label">FloraBloom</span><span class="stat-val">At flowering (wk 7+)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GERMINATION -->
+  <div class="section" id="germination">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-green">🌱</div>
+        <div>
+          <div class="section-title">Germination — Both Systems</div>
+          <div class="section-meta">Days 1–7 · Before entering the hydro system</div>
+        </div>
+      </div>
+      <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body open">
+      <div class="param-grid">
+        <div class="param-cell"><div class="param-name">Temperature</div><div class="param-val">70 – 80°F</div></div>
+        <div class="param-cell"><div class="param-name">pH of soak water</div><div class="param-val">5.5 – 6.0</div></div>
+        <div class="param-cell"><div class="param-name">Seeds per pod</div><div class="param-val">2 – 3</div></div>
+        <div class="param-cell"><div class="param-name">Nutrients</div><div class="param-val">None yet</div></div>
+        <div class="param-cell"><div class="param-name">Lettuce sprout</div><div class="param-val">2 – 5 days</div></div>
+        <div class="param-cell"><div class="param-name">Tomato sprout</div><div class="param-val">5 – 7 days</div></div>
+      </div>
+
+      <ol class="step-list">
+        <li><span class="step-num">1</span><span>Pre-soak sponge/rockwool pods in plain water pH'd to <strong>5.5–6.0</strong> for 30 minutes, then squeeze out excess.</span></li>
+        <li><span class="step-num">2</span><span>Drop <strong>2–3 seeds per pod</strong> — you'll thin to 1 seedling per pod later.</span></li>
+        <li><span class="step-num">3</span><span>Cover with humidity dome or plastic wrap. Place in a warm spot (70–80°F). <strong>No nutrients yet.</strong></span></li>
+        <li><span class="step-num">4</span><span>Keep pods moist but not waterlogged. Mist lightly if they start to dry.</span></li>
+        <li><span class="step-num">5</span><span>Move to your system once the <strong>first true leaves</strong> appear (second leaf pair — not the round seed leaves).</span></li>
+      </ol>
+
+      <div class="callout callout-green">
+        <span class="callout-icon">💡</span>
+        <div>Lettuce shows true leaves around <strong>days 5–8</strong>. Tomatoes take until <strong>days 10–14</strong>. Don't rush — moving too early risks root damage.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THINNING -->
+  <div class="section" id="thinning">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-teal">✂️</div>
+        <div>
+          <div class="section-title">Seedling Thinning & Separation</div>
+          <div class="section-meta">Days 5–14 · What to do with your extras</div>
+        </div>
+      </div>
+      <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body open">
+      <div class="callout callout-teal">
+        <span class="callout-icon">⏳</span>
+        <div><strong>Best timing:</strong> Wait until roots are just peeking out the bottom of the pod — plants have enough individual root structure to survive separation cleanly.</div>
+      </div>
+
+      <h3 class="sub-heading">Choosing which seedling to keep</h3>
+      <div class="prose">
+        <p>Keep the seedling that is most <strong>upright</strong>, has the <strong>thickest stem</strong>, the most evenly-colored leaves, and whose roots have grown deepest into the pod. Discard stretched/leggy, pale, or misshapen seedlings.</p>
+      </div>
+
+      <h3 class="sub-heading">Separation technique</h3>
+      <ol class="step-list">
+        <li><span class="step-num teal">1</span><span>Remove the pod and hold over a bowl of pH'd water.</span></li>
+        <li><span class="step-num teal">2</span><span>Use a toothpick to gently tease the sponge apart around the base of the seedling to remove.</span></li>
+        <li><span class="step-num teal">3</span><span>Wiggle gently side-to-side while lifting — <strong>never pull straight up.</strong></span></li>
+        <li><span class="step-num teal">4</span><span>If roots are badly tangled: <strong>cut between stems with small scissors</strong> rather than risk damaging both plants.</span></li>
+        <li><span class="step-num teal">5</span><span>Move the removed seedling within <strong>60–90 seconds</strong> — roots dry out fast under grow lights.</span></li>
+      </ol>
+
+      <h3 class="sub-heading">Options for removed seedlings</h3>
+      <div class="option-cards">
+        <div class="option-card">
+          <div class="success-rate">~70–80% survival</div>
+          <h4>🪴 Replant into empty pod</h4>
+          <p>Pre-soak a fresh pod in 25% nutrient solution before removing the seedling. Seat with stem base at pod top, roots going down. Mist leaves twice daily for 2–3 days after transplant. Keep water level slightly higher than normal for those first few days.</p>
+        </div>
+        <div class="option-card">
+          <div class="success-rate">Up to 24 hours</div>
+          <h4>🥤 Float in a cup (emergency)</h4>
+          <p>Sit the seedling in a small cup of 25% nutrient solution — roots submerged, stem and leaves dry. Place in indirect light. Buys time while you prep a proper pod.</p>
+        </div>
+        <div class="option-card">
+          <div class="success-rate">Lettuce: easy · Tomato: doable</div>
+          <h4>🌿 Transfer to soil</h4>
+          <p>Use light, well-draining seedling mix. Keep consistently moist for the first week. Keep out of direct sun for 3–4 days while roots adjust to soil conditions.</p>
+        </div>
+        <div class="option-card">
+          <div class="success-rate">Lettuce only</div>
+          <h4>🥗 Microgreens (zero waste)</h4>
+          <p>Lay extras on a damp paper towel or shallow tray with a thin layer of water. Harvest as tender microgreens in 3–4 days. Cotyledons and young true leaves are edible.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LETTUCE LIFECYCLE -->
+  <div class="section" id="lettuce">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-teal">🥬</div>
+        <div>
+          <div class="section-title">Lettuce Lifecycle — iDoo 12-pod</div>
+          <div class="section-meta">Black Seed Lettuce · Red Romaine · 28–45 days per cycle</div>
+        </div>
+      </div>
+      <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body open">
+
+      <div class="timeline">
+        <div class="tl-stage tl-teal"><div class="tl-dot">🌱</div><div class="tl-label">Seedling</div><div class="tl-days">Days 4–14</div></div>
+        <div class="tl-stage tl-teal"><div class="tl-dot">🌿</div><div class="tl-label">Vegetative</div><div class="tl-days">Days 15–35</div></div>
+        <div class="tl-stage tl-green"><div class="tl-dot">🥬</div><div class="tl-label">Harvest</div><div class="tl-days">Days 28–45+</div></div>
+      </div>
+
+      <!-- Phase 1 -->
+      <div class="phase">
+        <div class="phase-header phase-lettuce">
+          <span class="phase-tag">Phase 1</span>
+          <span>Seedling — Days 4–14</span>
+        </div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">Light</div><div class="param-val">16h on / 8h off</div></div>
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">25% strength</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">None yet</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.5 – 6.0</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">0.8 – 1.2</div></div>
+            <div class="param-cell"><div class="param-name">Water level</div><div class="param-val">Just touching pod bottom</div></div>
+          </div>
+          <div class="callout callout-warn"><span class="callout-icon">⚠️</span><div><strong>Pale yellow seedlings</strong> = nutrient or pH issue. <strong>Stretchy thin stems</strong> = insufficient light or light too far away.</div></div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase">
+        <div class="phase-header phase-lettuce">
+          <span class="phase-tag">Phase 2</span>
+          <span>Vegetative — Days 15–35</span>
+        </div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">Light</div><div class="param-val">16h on / 8h off</div></div>
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">50 – 75%</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">Half dose</div></div>
+            <div class="param-cell"><div class="param-name">FloraBloom</div><div class="param-val">Not used</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.5 – 6.5</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">1.2 – 1.8</div></div>
+            <div class="param-cell"><div class="param-name">Reservoir change</div><div class="param-val">Every 7–10 days</div></div>
+          </div>
+          <div class="callout callout-teal"><span class="callout-icon">💡</span><div><strong>Height watch:</strong> Red Romaine grows more upright. If leaves press against the hood, start harvesting outer leaves early rather than letting it bolt.</div></div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase">
+        <div class="phase-header phase-neutral">
+          <span class="phase-tag">Phase 3</span>
+          <span>Harvest — Days 28–45+</span>
+        </div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">75% strength</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">Full dose</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">1.6 – 2.0</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.8 – 6.5</div></div>
+            <div class="param-cell"><div class="param-name">Reservoir change</div><div class="param-val">Every 7 days</div></div>
+          </div>
+          <div class="callout callout-green">
+            <span class="callout-icon">✂️</span>
+            <div><strong>Cut-and-come-again:</strong> Harvest the 2–3 outermost leaves at a time. Never remove more than ⅓ of the plant in one go. Black Seed Lettuce supports 3–4 harvests before quality declines. <strong>Restart immediately if the center stalk starts to elongate upward</strong> — that's bolting.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LETTUCE PRUNING -->
+  <div class="section" id="pruning-lettuce">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-teal">🌿</div>
+        <div>
+          <div class="section-title">Pruning — Lettuce (iDoo)</div>
+          <div class="section-meta">Minimal intervention · No topping</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table>
+          <thead class="teal-head">
+            <tr><th>Action</th><th>When</th><th>How</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Remove cotyledons (seed leaves)</td><td>Day 10–14, when yellowing naturally</td><td>Pinch off cleanly at the base</td></tr>
+            <tr><td>Remove leaves touching water</td><td>Any time you notice them</td><td>Pinch off — prevents bacterial rot in reservoir</td></tr>
+            <tr><td>Outer leaf harvest (cut-and-come-again)</td><td>Day 28+ when leaves are full sized (4–5")</td><td>Cut outer leaves, leave center rosette intact</td></tr>
+            <tr><td>Full harvest before bolting</td><td>When center stalk elongates rapidly</td><td>Cut whole plant at base immediately — taste degrades fast</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">🚫</span>
+        <div><strong>Do not top or pinch the center growing point of young lettuce.</strong> Lettuce grows as a rosette from a single central point — damage there stunts the whole plant permanently.</div>
+      </div>
+      <div class="callout callout-green">
+        <span class="callout-icon">🥬</span>
+        <div><strong>Outer leaves at 3–4"?</strong> Leave them — they're almost at harvest size but still feeding the plant. Wait until they reach 4–5" or start drooping toward the water before cutting. Take the 2–3 outermost only, and the plant will keep pushing new growth from the center.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOMATO LIFECYCLE -->
+  <div class="section" id="tomatoes">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-amber">🍅</div>
+        <div>
+          <div class="section-title">Tomato Lifecycle — Suncore 20-pod</div>
+          <div class="section-meta">Yellow Pear · Rainbow Mix · Green Zebra · 4–5 months</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+
+      <div class="variety-cards">
+        <div class="variety-card"><div class="v-icon">💛</div><h4>Yellow Pear</h4><p>Firm, fully yellow when ripe. 1–2" pear shape. Doesn't ripen off the vine well.</p></div>
+        <div class="variety-card"><div class="v-icon">🌈</div><h4>Rainbow Mix</h4><p>Harvest per color of the specific variety. Check your seed packet for ripeness cues.</p></div>
+        <div class="variety-card"><div class="v-icon">💚</div><h4>Green Zebra</h4><p>Stays green! Look for yellow stripes and slightly soft shoulders. Commonly misread as unripe.</p></div>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-stage tl-amber"><div class="tl-dot">🌱</div><div class="tl-label">Seedling</div><div class="tl-days">Wk 1–3</div></div>
+        <div class="tl-stage tl-amber"><div class="tl-dot">🌿</div><div class="tl-label">Vegetative</div><div class="tl-days">Wk 4–6</div></div>
+        <div class="tl-stage tl-amber"><div class="tl-dot">🌸</div><div class="tl-label">Flowering</div><div class="tl-days">Wk 7–9</div></div>
+        <div class="tl-stage tl-coral"><div class="tl-dot">🍅</div><div class="tl-label">Fruiting</div><div class="tl-days">Wk 9–16</div></div>
+        <div class="tl-stage tl-green"><div class="tl-dot">✅</div><div class="tl-label">Harvest</div><div class="tl-days">Wk 10+</div></div>
+      </div>
+
+      <!-- Seedling -->
+      <div class="phase">
+        <div class="phase-header phase-tomato"><span class="phase-tag">Phase 1</span><span>Seedling — Weeks 1–3</span></div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">Light</div><div class="param-val">18h on / 6h off</div></div>
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">25% strength</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">None yet</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.5 – 6.0</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">0.8 – 1.4</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vegetative -->
+      <div class="phase">
+        <div class="phase-header phase-tomato"><span class="phase-tag">Phase 2</span><span>Vegetative — Weeks 4–6</span></div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">Light</div><div class="param-val">18h on / 6h off</div></div>
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">Full dose</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">Full dose</div></div>
+            <div class="param-cell"><div class="param-name">FloraBloom</div><div class="param-val">Not yet</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.8 – 6.3</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">2.0 – 2.5</div></div>
+            <div class="param-cell"><div class="param-name">Reservoir change</div><div class="param-val">Every 7 days</div></div>
+          </div>
+          <div class="callout callout-amber"><span class="callout-icon">✂️</span><div>Begin removing suckers. Keep <strong>1–2 main stems</strong> for best results in a desktop system. See pruning section for identification tips.</div></div>
+        </div>
+      </div>
+
+      <!-- Flowering -->
+      <div class="phase">
+        <div class="phase-header phase-tomato"><span class="phase-tag">Phase 3</span><span>Flowering — Weeks 7–9</span></div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">Reduce to 50–75%</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">Full dose</div></div>
+            <div class="param-cell"><div class="param-name">FloraBloom</div><div class="param-val">Introduce — full dose</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.8 – 6.3</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">2.5 – 3.0</div></div>
+            <div class="param-cell"><div class="param-name">Humidity</div><div class="param-val">50 – 70%</div></div>
+          </div>
+          <div class="callout callout-amber">
+            <span class="callout-icon">🌸</span>
+            <div><strong>Pollinate daily — required.</strong> Gently shake each flower cluster, or hold a small electric toothbrush against the flower stem for 2–3 seconds. Without pollination, flowers drop without setting fruit.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fruiting -->
+      <div class="phase">
+        <div class="phase-header phase-tomato"><span class="phase-tag">Phase 4</span><span>Fruiting — Weeks 9–16+</span></div>
+        <div class="phase-body">
+          <div class="param-grid">
+            <div class="param-cell"><div class="param-name">A+B base</div><div class="param-val">50%</div></div>
+            <div class="param-cell"><div class="param-name">CALiMAGic</div><div class="param-val">Full dose</div></div>
+            <div class="param-cell"><div class="param-name">FloraBloom</div><div class="param-val">Full dose</div></div>
+            <div class="param-cell"><div class="param-name">pH</div><div class="param-val">5.8 – 6.3</div></div>
+            <div class="param-cell"><div class="param-name">EC target</div><div class="param-val">2.8 – 3.2</div></div>
+            <div class="param-cell"><div class="param-name">Reservoir change</div><div class="param-val">Every 5–7 days</div></div>
+            <div class="param-cell"><div class="param-name">Water checks</div><div class="param-val">Daily</div></div>
+          </div>
+          <div class="callout callout-green"><span class="callout-icon">💡</span><div>Higher EC (2.8–3.2) at fruiting stage actually <strong>concentrates flavor</strong> in the fruit — controlled mild stress is beneficial here. If water level is dropping fast, that's a good sign — the plant is actively developing fruit.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOMATO PRUNING -->
+  <div class="section" id="pruning-tomato">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-amber">✂️</div>
+        <div>
+          <div class="section-title">Pruning — Tomatoes (Suncore)</div>
+          <div class="section-meta">2-stem training · Sucker removal · Weeks 5+</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table>
+          <thead class="amber-head">
+            <tr><th>Action</th><th>When</th><th>How</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>No pruning at all</td><td>Weeks 1–4</td><td>Let plant establish 4–6 true leaves first</td></tr>
+            <tr><td>First sucker removal</td><td>Weeks 5–6 (6+ true leaves)</td><td>Pinch cleanly at the base — don't tear</td></tr>
+            <tr><td>Ongoing sucker removal</td><td>Weeks 6+ as they appear</td><td>Maintain 2-stem system throughout</td></tr>
+            <tr><td>Fan leaf removal</td><td>Only if yellowing or blocking a flower cluster</td><td>Cut cleanly — never remove healthy green fan leaves</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">2-stem system for desktop hydroponics</h3>
+      <div class="prose">
+        <p>Keep the <strong>main central stem</strong> and the <strong>first strong sucker</strong> that grows just below the first flower cluster. Remove all other suckers as they appear. More than 2 stems in a desktop system creates competition for light and nutrients.</p>
+      </div>
+
+      <h3 class="sub-heading">Identifying suckers vs. branches</h3>
+      <div class="callout callout-amber">
+        <span class="callout-icon">🔍</span>
+        <div>
+          <strong>Sucker:</strong> Grows at ~45° from the V-junction between main stem and a leaf · soft slightly pale green tip.<br>
+          <strong>Branch:</strong> Grows from a node · slightly firmer base.<br><br>
+          <strong>When in doubt, wait.</strong> A sucker left a few more days gets bigger, easier to identify, and still comes off cleanly.
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <span class="callout-icon">✅</span>
+        <div><strong>Golden rule for both systems:</strong> If a leaf is green and alive, it's working — leave it. Only remove what is yellow, dying, touching water, or a clearly identified sucker on tomatoes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUTRIENTS -->
+  <div class="section" id="nutrients">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-green">🧪</div>
+        <div>
+          <div class="section-title">Nutrient Schedule Reference</div>
+          <div class="section-meta">A+B base · CALiMAGic · FloraBloom · EC targets</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+
+      <h3 class="sub-heading">Lettuce (iDoo)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead class="teal-head">
+            <tr><th>Stage</th><th>Days</th><th>A+B</th><th>CALiMAGic</th><th>FloraBloom</th><th>EC</th><th>pH</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Germination</td><td class="mono">1–3</td><td>Plain water</td><td>None</td><td>None</td><td class="mono">—</td><td class="mono">5.5–6.0</td></tr>
+            <tr><td>Seedling</td><td class="mono">4–14</td><td>25%</td><td>None</td><td>None</td><td class="mono">0.8–1.2</td><td class="mono">5.5–6.0</td></tr>
+            <tr><td>Vegetative</td><td class="mono">15–28</td><td>50–75%</td><td>Half dose</td><td>None</td><td class="mono">1.2–1.8</td><td class="mono">5.5–6.5</td></tr>
+            <tr><td>Harvest</td><td class="mono">28–45+</td><td>75%</td><td>Full dose</td><td>None</td><td class="mono">1.6–2.0</td><td class="mono">5.8–6.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">Tomatoes (Suncore)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead class="amber-head">
+            <tr><th>Stage</th><th>Weeks</th><th>A+B</th><th>CALiMAGic</th><th>FloraBloom</th><th>EC</th><th>pH</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Seedling</td><td class="mono">1–3</td><td>25%</td><td>None</td><td>None</td><td class="mono">0.8–1.4</td><td class="mono">5.5–6.0</td></tr>
+            <tr><td>Vegetative</td><td class="mono">4–6</td><td>Full</td><td>Full dose</td><td>None</td><td class="mono">2.0–2.5</td><td class="mono">5.8–6.3</td></tr>
+            <tr><td>Flowering</td><td class="mono">7–9</td><td>50–75%</td><td>Full dose</td><td>Full dose</td><td class="mono">2.5–3.0</td><td class="mono">5.8–6.3</td></tr>
+            <tr><td>Fruiting</td><td class="mono">9–16+</td><td>50%</td><td>Full dose</td><td>Full dose</td><td class="mono">2.8–3.2</td><td class="mono">5.8–6.3</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">Mixing order — always follow this sequence</h3>
+      <div class="mix-order">
+        <div class="mix-title">Nutrient mix order</div>
+        <div class="mix-step">Fresh water</div>
+        <div class="mix-step">CALiMAGic — stir well</div>
+        <div class="mix-step">Part A — stir well</div>
+        <div class="mix-step">Part B — stir well</div>
+        <div class="mix-step">pH Up or Down — stir, wait 30s, retest</div>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div>Never add pH adjusters before nutrients. Never skip the order — Part A and Part B react if combined without dilution. Always add pH adjusters <strong>last</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PH -->
+  <div class="section" id="ph">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-green">⚗️</div>
+        <div>
+          <div class="section-title">pH Management</div>
+          <div class="section-meta">Most critical daily habit · Check every 1–2 days</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+      <div class="param-grid">
+        <div class="param-cell"><div class="param-name">Lettuce target</div><div class="param-val">5.5 – 6.5</div></div>
+        <div class="param-cell"><div class="param-name">Lettuce ideal</div><div class="param-val">~6.0</div></div>
+        <div class="param-cell"><div class="param-name">Tomato target</div><div class="param-val">5.8 – 6.3</div></div>
+        <div class="param-cell"><div class="param-name">Tomato ideal</div><div class="param-val">6.0 – 6.2</div></div>
+        <div class="param-cell"><div class="param-name">Check frequency</div><div class="param-val">Every 1–2 days</div></div>
+        <div class="param-cell"><div class="param-name">Drift direction</div><div class="param-val">Usually upward</div></div>
+      </div>
+
+      <h3 class="sub-heading">Using pH Up and Down</h3>
+      <div class="prose">
+        <p>Always adjust the <strong>already-mixed nutrient solution</strong> — not plain water. Add pH Down drop by drop (it's concentrated acid). Stir thoroughly and <strong>wait 30 seconds</strong> before re-testing. pH tends to drift upward in active systems — expect to use pH Down more often than pH Up.</p>
+      </div>
+
+      <h3 class="sub-heading">pH meter care</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th>How often</th><th>Method</th></tr></thead>
+          <tbody>
+            <tr><td>Rinse probe tip</td><td>After every use</td><td>Distilled water only — never paper towels (scratches membrane)</td></tr>
+            <tr><td>Store probe</td><td>Always</td><td>In storage solution or pH 7.0 buffer — not plain water</td></tr>
+            <tr><td>Calibrate</td><td>Between crop cycles</td><td>Use pH 4.0 and pH 7.0 calibration solutions</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAINTENANCE -->
+  <div class="section" id="maintenance">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-green">📋</div>
+        <div>
+          <div class="section-title">Weekly Maintenance Routine</div>
+          <div class="section-meta">Daily · Every 2 days · Weekly · Between cycles</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+      <div class="maint-grid">
+        <div class="maint-card">
+          <div class="maint-card-header mh-green">Daily</div>
+          <div class="maint-card-body">
+            <ul>
+              <li>Check water level</li>
+              <li>Top off if low</li>
+              <li>Inspect for pests or yellowing</li>
+              <li>Confirm light timer is running</li>
+            </ul>
+            <br>
+            <strong style="font-size:11px;color:#7A3A10">Tomatoes only:</strong>
+            <ul>
+              <li>Pollinate open flowers</li>
+              <li>Adjust arm height if needed</li>
+            </ul>
+          </div>
+        </div>
+        <div class="maint-card">
+          <div class="maint-card-header mh-teal">Every 2 days</div>
+          <div class="maint-card-body">
+            <ul>
+              <li>Test + adjust pH</li>
+              <li>Record the reading</li>
+              <li>Prune dead or yellowing leaves</li>
+            </ul>
+            <br>
+            <strong style="font-size:11px;color:#1A5C52">Optional:</strong>
+            <ul>
+              <li>Check EC/TDS if you have a meter</li>
+            </ul>
+          </div>
+        </div>
+        <div class="maint-card">
+          <div class="maint-card-header mh-amber">Weekly</div>
+          <div class="maint-card-body">
+            <ul>
+              <li>Full reservoir flush + refill</li>
+              <li>Wipe reservoir walls</li>
+              <li>Rinse algae from pump</li>
+              <li>Clean pH probe tip</li>
+              <li>Harvest ripe tomatoes</li>
+              <li>Prune tomato suckers</li>
+              <li>Log plant height + health</li>
+            </ul>
+          </div>
+        </div>
+        <div class="maint-card">
+          <div class="maint-card-header mh-coral">Between cycles</div>
+          <div class="maint-card-body">
+            <ul>
+              <li>Remove all pods + debris</li>
+              <li>Soak pump in 3% H₂O₂</li>
+              <li>Rinse reservoir with H₂O₂</li>
+              <li>Let dry 24 hours</li>
+              <li>Calibrate pH meter</li>
+              <li>Replace grow pods</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEMS -->
+  <div class="section" id="problems">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-amber">🔧</div>
+        <div>
+          <div class="section-title">Common Problems & Fixes</div>
+          <div class="section-meta">Lettuce · Tomatoes · Both systems</div>
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body">
+
+      <div class="problem-section">
+        <h4>🥬 Lettuce problems</h4>
+        <div class="table-wrap">
+          <table>
+            <thead class="teal-head"><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>Brown crispy leaf edges (tip burn)</td><td>Calcium deficiency or poor airflow</td><td>Add CALiMAGic · improve air circulation · add a small fan nearby</td></tr>
+              <tr><td>Stretchy stems reaching for light</td><td>Insufficient light or too far away</td><td>Ensure 16h cycle · lower light closer to canopy</td></tr>
+              <tr><td>Pale yellow overall</td><td>Low nutrients or pH lockout</td><td>Check and correct pH first, then increase A+B strength</td></tr>
+              <tr><td>Center stalk elongating rapidly</td><td>Bolting — about to turn bitter</td><td>Harvest the whole plant immediately</td></tr>
+              <tr><td>Green slime on reservoir walls</td><td>Algae — light reaching water</td><td>Block light from reservoir · treat with H₂O₂ at 3 mL/gallon</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="problem-section">
+        <h4>🍅 Tomato problems</h4>
+        <div class="table-wrap">
+          <table>
+            <thead class="amber-head"><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>Flowers dropping, no fruit</td><td>No pollination or humidity issue</td><td>Pollinate daily · target 50–70% humidity</td></tr>
+              <tr><td>Dark sunken patches on fruit bottom</td><td>Blossom end rot — calcium deficiency</td><td>Increase CALiMAGic immediately</td></tr>
+              <tr><td>Yellow leaves from bottom up</td><td>Nitrogen deficiency or leaf senescence</td><td>Slightly increase A+B · monitor new growth</td></tr>
+              <tr><td>Yellow between veins, green veins remain</td><td>Magnesium deficiency</td><td>CALiMAGic addresses this</td></tr>
+              <tr><td>Dark edges on young leaves</td><td>Calcium issue</td><td>Check CALiMAGic dose and pH (must be in range for Ca uptake)</td></tr>
+              <tr><td>Purple leaf undersides or stems</td><td>Phosphorus deficiency</td><td>FloraBloom addresses this at flowering stage</td></tr>
+              <tr><td>Green Zebra not ripening</td><td>Misreading the ripe signal</td><td>Stays green — look for yellow stripes and slightly soft shoulders</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="problem-section">
+        <h4>⚙️ Both systems</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>Algae (green slime)</td><td>Light reaching nutrient solution</td><td>Cover exposed reservoir openings · H₂O₂ treatment</td></tr>
+              <tr><td>Brown/slimy roots</td><td>Root rot — low oxygen or contamination</td><td>Increase aeration · H₂O₂ treatment · full reservoir change</td></tr>
+              <tr><td>Crispy brown tips on new growth</td><td>Nutrient burn — EC too high</td><td>Dilute solution, partial water change</td></tr>
+              <tr><td>pH won't stay stable</td><td>Very active plants or small reservoir</td><td>Check twice daily · increase top-off frequency</td></tr>
+              <tr><td>Slow growth overall</td><td>Low temp, low light, or pH lockout</td><td>Ensure 70°F+ · correct light hours · check pH is in range</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="section" id="quickref">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-icon icon-green">⚡</div>
+        <div>
+          <div class="section-title">Quick Reference Card</div>
+          <div class="section-meta">At-a-glance numbers for both systems</div>
+        </div>
+      </div>
+      <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body open">
+      <div class="quick-ref">
+        <div class="qr-card lettuce-qr">
+          <h3>🥬 Lettuce — iDoo</h3>
+          <div class="qr-row"><span class="qr-key">pH range</span><span class="qr-val">5.5 – 6.5</span></div>
+          <div class="qr-row"><span class="qr-key">Light</span><span class="qr-val">16h on / 8h off</span></div>
+          <div class="qr-row"><span class="qr-key">EC seedling</span><span class="qr-val">0.8 – 1.2</span></div>
+          <div class="qr-row"><span class="qr-key">EC vegetative</span><span class="qr-val">1.2 – 1.8</span></div>
+          <div class="qr-row"><span class="qr-key">EC harvest</span><span class="qr-val">1.6 – 2.0</span></div>
+          <div class="qr-row"><span class="qr-key">FloraBloom</span><span class="qr-val">NOT USED</span></div>
+          <div class="qr-row"><span class="qr-key">CALiMAGic</span><span class="qr-val">From veg on</span></div>
+          <div class="qr-row"><span class="qr-key">Harvest from</span><span class="qr-val">Day 28–45+</span></div>
+          <div class="qr-row"><span class="qr-key">Cycle length</span><span class="qr-val">6 – 8 weeks</span></div>
+        </div>
+        <div class="qr-card tomato-qr">
+          <h3>🍅 Tomatoes — Suncore</h3>
+          <div class="qr-row"><span class="qr-key">pH range</span><span class="qr-val">5.8 – 6.3</span></div>
+          <div class="qr-row"><span class="qr-key">Light</span><span class="qr-val">18h on / 6h off</span></div>
+          <div class="qr-row"><span class="qr-key">EC seedling</span><span class="qr-val">0.8 – 1.4</span></div>
+          <div class="qr-row"><span class="qr-key">EC vegetative</span><span class="qr-val">2.0 – 2.5</span></div>
+          <div class="qr-row"><span class="qr-key">EC flowering</span><span class="qr-val">2.5 – 3.0</span></div>
+          <div class="qr-row"><span class="qr-key">EC fruiting</span><span class="qr-val">2.8 – 3.2</span></div>
+          <div class="qr-key" style="font-size:10px;padding-top:6px;opacity:0.7">FloraBloom starts at first flowers (wk 7+)</div>
+          <div class="qr-row"><span class="qr-key">CALiMAGic</span><span class="qr-val">From veg on — full dose</span></div>
+          <div class="qr-row"><span class="qr-key">Harvest from</span><span class="qr-val">Week 10–16+</span></div>
+          <div class="qr-row"><span class="qr-key">Cycle length</span><span class="qr-val">4 – 5 months</span></div>
+        </div>
+      </div>
+
+      <div class="mix-order">
+        <div class="mix-title">Always mix nutrients in this order</div>
+        <div class="mix-step">Fresh water</div>
+        <div class="mix-step">CALiMAGic — stir</div>
+        <div class="mix-step">Part A — stir</div>
+        <div class="mix-step">Part B — stir</div>
+        <div class="mix-step">pH adjust last — stir, wait 30 sec, retest</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // open the section if it's closed
+    const header = el.querySelector('.section-header');
+    const body = el.querySelector('.section-body');
+    if (header && body && !body.classList.contains('open')) {
+      toggle(header);
+    }
+    // update active nav
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    event.target.closest('.nav-link').classList.add('active');
+  }
+
+  // Highlight nav based on scroll position
+  const sections = ['overview','germination','thinning','lettuce','pruning-lettuce','tomatoes','pruning-tomato','nutrients','ph','maintenance','problems','quickref'];
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = sections[0];
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 80) current = id;
+    }
+  });
+</script>
+</body>
+</html>
